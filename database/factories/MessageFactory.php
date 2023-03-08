@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Chat;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,13 @@ class MessageFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'content' => $this->faker->paragraph(1),
+            'user_id' => function(){
+                return User::factory()->create();
+            },
+            'chat_id' => function(){
+                return Chat::factory()->create();
+            }
         ];
     }
 }

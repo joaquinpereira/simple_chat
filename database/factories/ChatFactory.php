@@ -16,8 +16,11 @@ class ChatFactory extends Factory
      */
     public function definition(): array
     {
+        $tipe_room = array_rand(['private' ,'room', 'private_room']);
         return [
-            //
+            'name' => $tipe_room != 'private' ? $this->faker->sentence() : null,
+            'avatar_room' => $tipe_room != 'private' ? $this->faker->imageUrl(360, 360) : null,
+            'room_type' => $tipe_room
         ];
     }
 }

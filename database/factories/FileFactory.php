@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Message;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,8 +17,17 @@ class FileFactory extends Factory
      */
     public function definition(): array
     {
+        $model = $this->getModel();
         return [
-            //
+            'url' => $this->faker->url(),
+            'mime' => $this->faker->mimeType(),
+            'fileable_id' => $model->id(),
+            'fileable_type' => $model->type(),
         ];
+    }
+
+    public function getModel()
+    {
+        return Message::factory()->create()->first();
     }
 }
