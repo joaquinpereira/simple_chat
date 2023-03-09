@@ -21,8 +21,8 @@ class FileFactory extends Factory
         return [
             'url' => $this->faker->url(),
             'mime' => $this->faker->mimeType(),
-            'fileable_id' => $model->id(),
-            'fileable_type' => $model->type(),
+            'fileable_id' => $model->id,
+            'fileable_type' => get_class($model),
         ];
     }
 

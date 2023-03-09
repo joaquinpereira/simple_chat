@@ -9,6 +9,8 @@ class File extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public function fileable()
     {
         return $this->morphTo();

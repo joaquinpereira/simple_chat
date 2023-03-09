@@ -4,14 +4,14 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-use App\Models\Chat;
-use App\Models\Message;
 use App\Models\User;
-use Carbon\Carbon;
+use App\Traits\ChatFactory;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
+    use ChatFactory;
+
     /**
      * Seed the application's database.
      */
@@ -35,36 +35,4 @@ class DatabaseSeeder extends Seeder
         $this->createChatRoom('private_room', $user, 3);
     }
 
-    public function createChatRoom($room_type, $user, $lenght)
-    {
-        Chat::factory($lenght)->create(['room_type' => $room_type])
-            ->each(function($chat, $index) use ($user, $room_type)
-        {
-            $chat->users()->save($user);
-
-            if($room_type == 'private'){
-
-                $chat->users()->save(User::where(['id' => $index + 1])->first());
-
-            }else{
-                for($i = 1; $i < rand(3, 8); $i++){
-                    $chat->users()->save(User::where(['id' => rand(1, 25)])->first());
-                }
-            }
-
-            $this->createMessagesForChatRoom($chat);
-
-        });
-    }
-
-    public function createMessagesForChatRoom($chat)
-    {
-        $chat->users->each(function($user) use($chat){
-            Message::factory(rand(3, 8))->create([
-                'chat_id' => $chat->id,
-                'user_id' => $user->id,
-                'created_at' => Carbon::now()->subMinutes(rand(1, 2000))
-            ]);
-        });
-    }
 }
